@@ -5,11 +5,28 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 
+const LS_CONTACTS = 'saved_contacts';
+
 export class App extends Component {
   state = {
     contacts: [],
     filter: '',
   };
+
+  componentDidMount() {
+    const savedContacts = localStorage.getItem(LS_CONTACTS);
+
+    if (savedContacts) {
+      this.setState({ contacts: JSON.parse(savedContacts) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts.length !== prevState.contacts.length) {
+      localStorage.setItem(LS_CONTACTS, JSON.stringify(this.state.contacts));
+      console.log(this.state.contacts);
+    }
+  }
 
   formSubmitHandler = data => {
     const isOnContacts = this.state.contacts.some(
