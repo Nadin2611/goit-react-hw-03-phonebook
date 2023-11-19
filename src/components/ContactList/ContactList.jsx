@@ -1,20 +1,17 @@
 import { List } from './ContactList.styled';
 import { ContactListItem } from '../ContactListItem/ContactListItem';
 
-export const ContactList = ({ contacts, filter, onDelete }) => {
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+export const ContactList = ({ contacts, onDelete }) => {
   return (
     <List>
-      {filteredContacts.map(contact => (
+      {contacts.map(({ id, name, number }) => (
         <ContactListItem
-          key={contact.id}
-          name={contact.name}
-          number={contact.number}
-          onDelete={() => onDelete(contact.name)}
+          key={id}
+          name={name}
+          number={number}
+          onDelete={() => onDelete(name)}
         >
-          {contact.name} {contact.number}
+          {name} {number}
         </ContactListItem>
       ))}
     </List>
